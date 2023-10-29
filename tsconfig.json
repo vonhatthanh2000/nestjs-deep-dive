@@ -18,7 +18,9 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@middlewares": ["src/common/middlewares"]
+      "@middlewares": ["src/common/middlewares"],
+      "@guards": ["src/common/guards"],
+      "@interceptors": ["src/common/interceptors"]
     }
   }
 }

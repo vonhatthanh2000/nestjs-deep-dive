@@ -1,11 +1,25 @@
-import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Logger,
+  Param,
+  ParseIntPipe,
+  UseInterceptors,
+} from '@nestjs/common';
 import { AppService } from './app.service';
+import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor';
+import { ExcludeNullInterceptor } from './common/interceptors/exclude-null.interceptor';
 
 @Controller()
+@UseInterceptors(TimeoutInterceptor)
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  private logger: Logger;
+  constructor(private readonly appService: AppService) {
+    this.logger = new Logger(AppController.name);
+  }
 
   @Get('')
+  @UseInterceptors(ExcludeNullInterceptor)
   getHello(): string {
     return this.appService.getHello();
   }
