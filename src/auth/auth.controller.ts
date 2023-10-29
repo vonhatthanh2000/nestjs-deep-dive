@@ -11,6 +11,7 @@ import { CreateUserDto, LoginDto } from './dto';
 import { JwtAuthGuard } from '@guards';
 import { CurrentUser, Public } from '@decorators';
 import { UserPayload } from '@interfaces';
+import { LocalGuard } from 'src/common/guards/local-auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -34,6 +35,7 @@ export class AuthController {
   }
 
   @Get('profile')
+  @UseGuards(LocalGuard)
   getProfile(@CurrentUser() user: UserPayload) {
     return user;
   }
