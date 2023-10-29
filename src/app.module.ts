@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { AppVersionMiddleware } from '@middlewares';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
-import { CustomThrottlerGuard } from '@guards';
+import { JwtAuthGuard, CustomThrottlerGuard } from '@guards';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
@@ -27,6 +27,10 @@ import { PrismaModule } from './prisma/prisma.module';
     {
       provide: APP_GUARD,
       useClass: CustomThrottlerGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
     },
   ],
 })

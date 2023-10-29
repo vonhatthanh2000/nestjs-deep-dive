@@ -22,7 +22,9 @@
       "@guards": ["src/common/guards"],
       "@interceptors": ["src/common/interceptors"],
       "@pipes": ["src/common/pipes"],
-      "@exceptions": ["src/common/exceptions"]
+      "@exceptions": ["src/common/exceptions"],
+      "@decorators": ["src/common/decorators"],
+      "@interfaces": ["src/common/interfaces"]
     }
   }
 }
