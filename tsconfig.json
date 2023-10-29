@@ -20,7 +20,9 @@
     "paths": {
       "@middlewares": ["src/common/middlewares"],
       "@guards": ["src/common/guards"],
-      "@interceptors": ["src/common/interceptors"]
+      "@interceptors": ["src/common/interceptors"],
+      "@pipes": ["src/common/pipes"],
+      "@exceptions": ["src/common/exceptions"]
     }
   }
 }

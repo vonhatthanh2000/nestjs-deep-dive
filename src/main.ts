@@ -3,13 +3,19 @@ import { AppModule } from './app.module';
 import helmet from 'helmet';
 import { Logger } from '@nestjs/common';
 import { LoggingInterceptor } from '@interceptors';
+import { CustomValidationPipe } from '@pipes';
+import { HttpExceptionFilter } from './common/exception-filter';
 
 async function bootstrap() {
   const logger = new Logger(bootstrap.name);
   const app = await NestFactory.create(AppModule);
+  // EXCEPTION FILTER
+  app.useGlobalFilters(new HttpExceptionFilter());
+
+  // GLOBAL PIPE
+  app.useGlobalPipes(new CustomValidationPipe());
 
   // GLOBAL INTERCEPTOR
-  // Thêm vào đây
   app.useGlobalInterceptors(new LoggingInterceptor());
 
   // GLOBAL MIDDLEWARE
