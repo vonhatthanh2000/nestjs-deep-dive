@@ -5,6 +5,7 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { LoggingInterceptor } from '@interceptors';
 import { CustomValidationPipe } from '@pipes';
 import { HttpExceptionFilter } from './common/exception-filter';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const logger = new Logger(bootstrap.name);
@@ -29,7 +30,15 @@ async function bootstrap() {
   //   next();
   // });
 
-  await app.listen(3000);
+  const config = new DocumentBuilder()
+    .setTitle('Authentication and note management API')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
+
+  await app.listen(3010);
 }
 
 bootstrap();

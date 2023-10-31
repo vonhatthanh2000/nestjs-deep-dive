@@ -8,27 +8,25 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto, LoginDto } from './dto';
-import { JwtAuthGuard } from '@guards';
 import { CurrentUser, Public } from '@decorators';
 import { UserPayload } from '@interfaces';
 import { LocalGuard } from 'src/common/guards/local-auth.guard';
+import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
 
 @Controller('auth')
+@ApiTags('auth')
 export class AuthController {
-  // auth service is automatically injected when initializing the controller
   constructor(private authService: AuthService) {}
 
-  @Post()
-  getHello(): string {
-    return this.authService.getHello();
-  }
-
   @Post('register')
+  @Public()
+  @ApiBody({ type: CreateUserDto })
   register(@Body() dto: CreateUserDto) {
     return this.authService.register(dto);
   }
 
   @Post('login')
+  @ApiBody({ type: LoginDto })
   @Public()
   login(@Body() dto: LoginDto) {
     return this.authService.login(dto);
@@ -36,6 +34,7 @@ export class AuthController {
 
   @Get('profile')
   @UseGuards(LocalGuard)
+  @ApiBearerAuth()
   getProfile(@CurrentUser() user: UserPayload) {
     return user;
   }
