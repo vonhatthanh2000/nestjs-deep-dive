@@ -10,9 +10,9 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { LocalGuard } from 'src/common/guards/local-auth.guard';
+import { LocalGuard } from '../common/guards/local-auth.guard';
 import { NoteService } from './note.service';
-import { CurrentUser } from '@decorators';
+import { CurrentUser } from '../common/decorators';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto';
 
