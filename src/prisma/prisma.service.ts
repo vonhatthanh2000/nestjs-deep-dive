@@ -9,21 +9,14 @@ export class PrismaService extends PrismaClient {
     super({
       datasources: {
         db: {
-          //we need to secure this !
-          //url: 'postgresql://postgres:Abc123456789@localhost:5434/testdb?schema=public'
           url: configService.get('DATABASE_URL'),
         },
       },
     });
     console.log('db url :' + configService.get('DATABASE_URL'));
   }
+
   cleanDatabase() {
-    //In a 1 - N relation, delete N firstly, then delete "1"
-    console.log('cleanDatabase');
-    return this.$transaction([
-      //2 commands in ONE transaction
-      this.note.deleteMany(),
-      this.user.deleteMany(),
-    ]);
+    return this.$transaction([this.note.deleteMany(), this.user.deleteMany()]);
   }
 }

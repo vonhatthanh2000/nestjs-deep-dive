@@ -1,16 +1,9 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  Request,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto, LoginDto } from './dto';
 import { CurrentUser, Public } from '@decorators';
 import { UserPayload } from '@interfaces';
-import { LocalGuard } from 'src/common/guards/local-auth.guard';
+import { LocalGuard } from '@guards';
 import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
 
 @Controller('auth')

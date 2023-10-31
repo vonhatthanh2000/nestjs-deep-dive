@@ -7,6 +7,9 @@
   "license": "UNLICENSED",
   "scripts": {
     "prisma:dev:deploy": "prisma migrate deploy",
+    "db:dev:remove": "docker compose rm dev-database --stop --force --volumes",
+    "db:dev:create": "docker compose up dev-database --detach",
+    "db:dev:restart": "yarn db:dev:remove && yarn db:dev:create && sleep 2 && yarn prisma:dev:deploy",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
@@ -71,6 +74,17 @@
       "json",
       "ts"
     ],
+    "moduleNameMapper": {
+      "^src/(.*)$": "<rootDir>/src/$1",
+      "^@modules(.*)$": "<rootDir>/src/modules/$1",
+      "^@config(.*)$": "<rootDir>/src/config/$1",
+      "^@entities(.*)$": "<rootDir>database/entities/$1",
+      "^@enums(.*)$": "<rootDir>/database/enums/$1",
+      "^@common(.*)$": "<rootDir>/common/$1",
+      "^@decorators(.*)$": "<rootDir>/common/decorators/$1",
+      "^@guards(.*)$": "<rootDir>/common/guards/$1",
+      "^database/(.*)$": "<rootDir>/database/$1"
+    },
     "rootDir": "src",
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
