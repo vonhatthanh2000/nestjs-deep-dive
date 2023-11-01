@@ -4,6 +4,7 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as pactum from 'pactum';
 import { PrismaService } from '../src/prisma/prisma.service';
 import { LoginDto } from '../src/auth/dto/login.dto';
+import { CreateNoteDto } from 'src/note/dto';
 
 describe('App end to end test', () => {
   let app: INestApplication;
@@ -122,7 +123,59 @@ describe('App end to end test', () => {
           .post('/auth/login')
           .withBody(dto)
           .expectStatus(201)
-          .stores('accessToken', 'token');
+          .stores('accessToken', 'accessToken');
+      });
+
+      it('should get current user', async () => {
+        return pactum
+          .spec()
+          .get('/auth/profile')
+          .withHeaders({ Authorization: 'Bearer $S{accessToken}' })
+          .expectStatus(200);
+      });
+    });
+
+    describe('Note Controller', () => {
+      describe('Create note', () => {
+        const dto: CreateNoteDto = {
+          title: 'thanh note',
+          description: 'thanh write note',
+          url: 'tst',
+        };
+        it('should throw if body not provided', () => {
+          return pactum
+            .spec()
+            .post('/notes')
+            .withHeaders({ Authorization: 'Bearer $S{accessToken}' })
+            .expectStatus(400);
+        });
+        it('should throw if note title not provided', () => {
+          return pactum
+            .spec()
+            .post('/notes')
+            .withHeaders({ Authorization: 'Bearer $S{accessToken}' })
+            .withBody({ description: dto.description })
+            .expectStatus(400)
+            .expectBodyContains('title should not be empty');
+        });
+        it('should create new note', () => {
+          return pactum
+            .spec()
+            .post('/notes')
+            .withHeaders({ Authorization: 'Bearer $S{accessToken}' })
+            .withBody(dto)
+            .expectStatus(201)
+            .stores('noteId', 'id');
+        });
+        it('should return note created', () => {
+          return pactum
+            .spec()
+            .get('/notes/$S{noteId}')
+            .withHeaders({ Authorization: 'Bearer $S{accessToken}' })
+            .expectStatus(200)
+            .expectBodyContains(dto.title)
+            .expectBodyContains(dto.description);
+        });
       });
     });
   });
