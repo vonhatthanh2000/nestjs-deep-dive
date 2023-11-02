@@ -7,8 +7,8 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
 import { CustomThrottlerGuard } from './common/guards/throttler.guard';
-import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
-import { AppVersionMiddleware } from './common/middlewares/verson.middleware';
+import { JwtGuard } from './common/guards/jwt-auth.guard';
+import { AppVersionMiddleware } from './common/middlewares/module-verson.middleware';
 import { UserModule } from './user/user.module';
 import { NoteModule } from './note/note.module';
 
@@ -35,7 +35,7 @@ import { NoteModule } from './note/note.module';
     },
     {
       provide: APP_GUARD,
-      useClass: JwtAuthGuard,
+      useClass: JwtGuard,
     },
   ],
 })

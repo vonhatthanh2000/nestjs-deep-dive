@@ -5,6 +5,7 @@ import { CreateUserDto, LoginDto } from './dto';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { UserPayload } from '@interfaces';
+import { BadRequestException } from '@nestjs/common';
 
 @Injectable()
 export class AuthService {
@@ -40,6 +41,25 @@ export class AuthService {
       return user;
     } catch (error) {
       this.logger.error(error);
+    }
+  }
+
+  async getAuthenticatedUser(email: string, password: string) {
+    try {
+      const user = await this.prismaService.user.findUnique({
+        where: {
+          email,
+        },
+      });
+      const passwordMatch = await argon.verify(user.password, password);
+
+      if (!passwordMatch) {
+        throw new ForbiddenException('Wrong password');
+      }
+
+      return user;
+    } catch (error) {
+      throw new BadRequestException('Wrong credentials!');
     }
   }
 
