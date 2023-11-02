@@ -22,6 +22,11 @@ export class AppController {
     this.logger = new Logger(AppController.name);
   }
 
+  @Get('global')
+  getGlobal(): string {
+    return this.appService.getHello();
+  }
+
   @Get('')
   @UseInterceptors(ExcludeNullInterceptor)
   @UsePipes(ParseRouteValidationPipe)
@@ -35,7 +40,7 @@ export class AppController {
   }
 
   @Get(':id')
-  async findOne(@Param('id', ParseIntPipe) id: number) {
+  async findOne(@Param('id') id: number) {
     return this.appService.findOne(id);
   }
 }
