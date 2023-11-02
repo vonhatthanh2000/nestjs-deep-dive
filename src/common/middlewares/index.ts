@@ -1,1 +1,1 @@
-export * from './verson.middleware';
+export * from './module-verson.middleware';
