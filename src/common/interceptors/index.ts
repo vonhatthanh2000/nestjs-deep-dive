@@ -1,2 +1,2 @@
 export * from './logging.interceptor';
-export * from './timeout.interceptor';
+export * from './controller-timeout.interceptor';

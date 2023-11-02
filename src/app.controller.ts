@@ -8,7 +8,7 @@ import {
   UsePipes,
 } from '@nestjs/common';
 import { AppService } from './app.service';
-import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor';
+import { TimeoutInterceptor } from './common/interceptors/controller-timeout.interceptor';
 import { ExcludeNullInterceptor } from './common/interceptors/exclude-null.interceptor';
 import { ParseControllerValidationPipe } from './common/pipes/parse-controller.pipe';
 import { ParseRouteValidationPipe } from './common/pipes/parse-route.pipe';
