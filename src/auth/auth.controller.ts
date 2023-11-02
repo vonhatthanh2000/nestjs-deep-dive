@@ -5,11 +5,15 @@ import { CurrentUser, Public } from '@decorators';
 import { UserPayload } from '@interfaces';
 import { LocalGuard } from '@guards';
 import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
+import { UserService } from 'src/user/user.service';
 
 @Controller('auth')
 @ApiTags('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private userService: UserService,
+  ) {}
 
   @Post('register')
   @Public()
@@ -28,7 +32,7 @@ export class AuthController {
   @Get('profile')
   @UseGuards(LocalGuard)
   @ApiBearerAuth()
-  getProfile(@CurrentUser() user: UserPayload) {
-    return user;
+  getUserProfile(@CurrentUser() user: UserPayload) {
+    return this.userService.getUserById(user.id);
   }
 }
